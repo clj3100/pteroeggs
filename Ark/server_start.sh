@@ -45,7 +45,7 @@ if [[ $(echo $updatemods) == 1 ]]
         bin/arkmanager updatemods
 fi
 
-sed -e "s/^MaxPlayers.*/MaxPlayers=$Players" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
+sed -e "s/^MaxPlayers.*/MaxPlayers=$Players/" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
 
 bin/arkmanager installmods
 
