@@ -50,4 +50,4 @@ sed -e "s/^MaxPlayers.*/MaxPlayers=$Players/" -i ShooterGame/Saved/Config/LinuxS
 
 bin/arkmanager installmods
 
-cd ShooterGame/Binaries/Linux && ./ShooterGameServer $map?listen?SessionName="$SessionName"?ServerPassword=$ServerPassword?ServerAdminPassword=$ServerAdminPassword?Port=$Port?RCONPort=$RCONPort?QueryPort=$QueryPort?RCONEnabled=True$( [ "$BATTLE_EYE" == "1" ] || printf %s ' -NoBattlEye' ) -server {{ARGS}} -log & until echo "waiting for rcon connection..."; rcon -t rcon -a 127.0.0.1:$RCONPort -p $ServerAdminPassword; do sleep 5; done
+cd ShooterGame/Binaries/Linux && ./ShooterGameServer $map?listen?SessionName="$SessionName"?ServerPassword=$ServerPassword?ServerAdminPassword=$ServerAdminPassword?Port=$Port?RCONPort=$RCONPort?QueryPort=$QueryPort?RCONEnabled=True?MaxPlayers=$Players$( [ "$BATTLE_EYE" == "1" ] || printf %s ' -NoBattlEye' ) -server {{ARGS}} -log & until echo "waiting for rcon connection..."; rcon -t rcon -a 127.0.0.1:$RCONPort -p $ServerAdminPassword; do sleep 5; done
