@@ -26,6 +26,8 @@ if [[ $(test -e bin/arkmanager;echo $?) == 1 ]]
         echo "Ark Server Tools already installed"
 fi
 
+sed -e "/\[ServerSettings\]/a ActiveMods=$mods/" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
+
 sed -e "s/ark_GameModIds.*/ark_GameModIds=\"$mods\"/" -i .config/arkmanager/instances/main.cfg
 
 bin/arkmanager installmods
