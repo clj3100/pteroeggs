@@ -16,6 +16,10 @@ rmv() {
 }
 trap rmv 15
 
+curl -sL https://git.io/arkmanager | bash -s --  --perform-user-install --yes-i-really-want-to-perform-a-user-install
+
+sed -e 's:arkserverroot="/home/container/ARK":arkserverroot="/home/container":' -i .config/arkmanager/instances/main.cfg
+
 sed -e "s/\#ark_GameModIds.*/ark_GameModIds=\"$mods\"/" -i .config/arkmanager/instances/main.cfg
 
 bin/arkmanager installmods
