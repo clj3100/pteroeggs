@@ -9,6 +9,7 @@ RCONPort=$6
 QueryPort=$7
 Players=$8
 mods=$9
+updatemods=${10}
 
 rmv() {
      echo -e "stopping server"
@@ -38,6 +39,11 @@ if [[ $(grep -q '^ActiveMods' ShooterGame/Saved/Config/LinuxServer/GameUserSetti
 fi
 
 sed -e "s/ark_GameModIds.*/ark_GameModIds=\"$mods\"/" -i .config/arkmanager/instances/main.cfg
+
+if [[ $(echo $updatemods) == 1 ]]
+    then
+        bin/arkmanager updatemods
+fi
 
 bin/arkmanager installmods
 
