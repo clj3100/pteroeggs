@@ -16,7 +16,7 @@ rmv() {
 }
 trap rmv 15
 
-sed -e 's/arkserverroot="/home/container/ARK"/arkserverroot="/home/container"/' -i .config/arkmanager/instances/main.cfg
+sed -e "s/\#ark_GameModIds.*/ark_GameModIds=\"$mods\"/" -i .config/arkmanager/instances/main.cfg
 
 bin/arkmanager installmods
 
