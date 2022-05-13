@@ -16,9 +16,14 @@ rmv() {
 }
 trap rmv 15
 
-curl -sL https://git.io/arkmanager | bash -s --  --perform-user-install --yes-i-really-want-to-perform-a-user-install 2> /dev/null
-
-sed -e 's:arkserverroot="/home/container/ARK":arkserverroot="/home/container":' -i .config/arkmanager/instances/main.cfg
+if [[ $(test -e bin/arkmanager;echo $?) == 1 ]] 
+    then
+        echo "Installing Ark Server Tools"
+        curl -sL https://git.io/arkmanager | bash -s --  --perform-user-install --yes-i-really-want-to-perform-a-user-install 2> /dev/null
+        sed -e 's:arkserverroot="/home/container/ARK":arkserverroot="/home/container":' -i .config/arkmanager/instances/main.cfg
+    else
+        echo "Ark Server Tools already installed"
+fi
 
 sed -e "s/\#ark_GameModIds.*/ark_GameModIds=\"$mods\"/" -i .config/arkmanager/instances/main.cfg
 
