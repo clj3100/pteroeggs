@@ -34,7 +34,7 @@ if [[ $(grep -q '^ActiveMods' ShooterGame/Saved/Config/LinuxServer/GameUserSetti
     then
         sed -e "/\[ServerSettings\]/a ActiveMods=$mods" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
     else
-        sed -e "s/ActiveMods=.*/ActiveMods=$mods/" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
+        sed -e "s/^ActiveMods=.*/ActiveMods=$mods/" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
 fi
 
 sed -e "s/ark_GameModIds.*/ark_GameModIds=\"$mods\"/" -i .config/arkmanager/instances/main.cfg
