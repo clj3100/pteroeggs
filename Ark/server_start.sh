@@ -21,6 +21,7 @@ trap rmv 15
 if [ -z "$mods" ]
     then
         sed -e 's/^ActiveMods=.*//' -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
+        echo "" > ShooterGame/Saved/Config/LinuxServer/Game.ini
     else
     echo "[ModInstaller]" > ShooterGame/Saved/Config/LinuxServer/Game.ini
         for id in $(echo $mods |tr "," "\n")
