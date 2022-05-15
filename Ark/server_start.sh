@@ -35,7 +35,7 @@ if [[ $(grep -q '^ActiveMods' ShooterGame/Saved/Config/LinuxServer/GameUserSetti
 fi
 fi
 
-if [[ $automod == 1]]
+if [[ $automod == 1 ]]
     then
         automodvar="-automanagedmods"
     else
