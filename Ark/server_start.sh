@@ -39,6 +39,7 @@ if [[ $automod == 1 ]]
     then
         automodvar="-automanagedmods"
     else
+        automodvar=""
         if [[ $(test -e bin/arkmanager;echo $?) == 1 ]] 
             then
                 echo "Installing Ark Server Tools"
