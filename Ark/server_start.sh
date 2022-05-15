@@ -9,8 +9,7 @@ RCONPort=$6
 QueryPort=$7
 Players=$8
 mods=$9
-updatemods=${10}
-extra_args=${11}
+extra_args=${10}
 
 rmv() {
      echo -e "stopping server"
@@ -41,13 +40,6 @@ fi
 fi
 
 sed -e "s/ark_GameModIds.*/ark_GameModIds=\"$mods\"/" -i .config/arkmanager/instances/main.cfg
-
-if [[ $(echo $updatemods) == 1 ]]
-    then
-        bin/arkmanager installmods
-fi
-
-bin/arkmanager installmods
 
 sed -e "s/^MaxPlayers.*/MaxPlayers=$Players/" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
 
