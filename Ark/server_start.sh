@@ -57,7 +57,7 @@ fi
 
 if [[ $verify == 1 ]]
     then
-        cd steamcmd && ./steamcmd.sh +force_install_dir /mnt/server +login anonymous +app_update 376030 validate +quit
+        cd steamcmd && ./steamcmd.sh +force_install_dir /home/container +login anonymous +app_update 376030 validate +quit
 fi
 
 sed -e "s/MaxPlayers.*/MaxPlayers=$Players/" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
