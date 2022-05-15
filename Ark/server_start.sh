@@ -54,6 +54,6 @@ if [ -z "$mods" ]
     fi
 fi
 
-sed -e "s/^MaxPlayers.*/MaxPlayers=$Players/" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
+sed -e "s/MaxPlayers.*/MaxPlayers=$Players/" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
 
 cd ShooterGame/Binaries/Linux && ./ShooterGameServer $map?listen?SessionName="$SessionName"?ServerPassword=$ServerPassword?ServerAdminPassword=$ServerAdminPassword?Port=$Port?RCONPort=$RCONPort?QueryPort=$QueryPort?RCONEnabled=True?MaxPlayers=$Players$( [ "$BATTLE_EYE" == "1" ] || printf %s ' -NoBattlEye' ) -server $automodvar $extra_args -log & until echo -n ""; rcon -t rcon -a 127.0.0.1:$RCONPort -p $ServerAdminPassword >/dev/null 2>&1; do sleep 5; done
