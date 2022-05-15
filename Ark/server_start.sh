@@ -11,6 +11,7 @@ Players=$8
 mods=$9
 extra_args=${10}
 automod=${11}
+verify=${12}
 automodvar=""
 
 rmv() {
@@ -52,6 +53,11 @@ if [ -z "$mods" ]
         sed -e "s/ark_GameModIds.*/ark_GameModIds=\"$mods\"/" -i .config/arkmanager/instances/main.cfg
         bin/arkmanager installmods
     fi
+fi
+
+if [[ $verify == 1 ]]
+    then
+        cd steamcmd && ./steamcmd.sh +force_install_dir /mnt/server +login anonymous +app_update 376030 validate +quit
 fi
 
 sed -e "s/MaxPlayers.*/MaxPlayers=$Players/" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
