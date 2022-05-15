@@ -11,6 +11,7 @@ Players=$8
 mods=$9
 extra_args=${10}
 automod=${11}
+automodvar=""
 
 rmv() {
      echo -e "stopping server"
@@ -23,24 +24,22 @@ if [ -z "$mods" ]
         sed -e 's/^ActiveMods=.*//' -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
         echo "" > ShooterGame/Saved/Config/LinuxServer/Game.ini
     else
-    echo "[ModInstaller]" > ShooterGame/Saved/Config/LinuxServer/Game.ini
+        echo "[ModInstaller]" > ShooterGame/Saved/Config/LinuxServer/Game.ini
         for id in $(echo $mods |tr "," "\n")
             do
                 echo "ModIDS=$id" >> ShooterGame/Saved/Config/LinuxServer/Game.ini
             done
-if [[ $(grep -q '^ActiveMods' ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini;echo $?) == 1 ]]
-    then
-        sed -e "/\[ServerSettings\]/a ActiveMods=$mods" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
-    else
-        sed -e "s/^ActiveMods=.*/ActiveMods=$mods/" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
-fi
-fi
-
-if [[ $automod == 1 ]]
+        if [[ $(grep -q '^ActiveMods' ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini;echo $?) == 1 ]]
+            then
+                sed -e "/\[ServerSettings\]/a ActiveMods=$mods" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
+            else
+                sed -e "s/^ActiveMods=.*/ActiveMods=$mods/" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
+        fi
+    
+    if [[ $automod == 1 ]]
     then
         automodvar="-automanagedmods"
     else
-        automodvar=""
         if [[ $(test -e bin/arkmanager;echo $?) == 1 ]] 
             then
                 echo "Installing Ark Server Tools"
@@ -52,6 +51,7 @@ if [[ $automod == 1 ]]
         fi
         sed -e "s/ark_GameModIds.*/ark_GameModIds=\"$mods\"/" -i .config/arkmanager/instances/main.cfg
         bin/arkmanager installmods
+    fi
 fi
 
 sed -e "s/^MaxPlayers.*/MaxPlayers=$Players/" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
