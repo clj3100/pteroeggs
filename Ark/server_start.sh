@@ -31,6 +31,11 @@ if [ -z "$mods" ]
     then
         sed -e 's/^ActiveMods=.*//' -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
     else
+        for id in $(echo $mods |tr "," "\n")
+            do
+                echo "[ModInstaller]" > ShooterGame/Saved/Config/LinuxServer/Game.ini
+                echo "ModIDS=$id" >> ShooterGame/Saved/Config/LinuxServer/Game.ini
+            done
 if [[ $(grep -q '^ActiveMods' ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini;echo $?) == 1 ]]
     then
         sed -e "/\[ServerSettings\]/a ActiveMods=$mods" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
