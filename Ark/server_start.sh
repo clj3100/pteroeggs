@@ -62,4 +62,4 @@ fi
 
 sed -e "s/MaxPlayers.*/MaxPlayers=$Players/" -i /home/container/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
 
-cd /home/container/ShooterGame/Binaries/Linux && ./ShooterGameServer $map?listen?SessionName="$SessionName"?ServerPassword=$ServerPassword?ServerAdminPassword=$ServerAdminPassword?Port=$Port?RCONPort=$RCONPort?QueryPort=$QueryPort?RCONEnabled=True?MaxPlayers=$Players$( [ "$BATTLE_EYE" == "1" ] || printf %s ' -NoBattlEye' ) -server $automodvar $extra_args -log & until echo -n ""; rcon -t rcon -a 127.0.0.1:$RCONPort -p $ServerAdminPassword; do sleep 5; done
+cd /home/container/ShooterGame/Binaries/Linux && ./ShooterGameServer $map?listen?SessionName="$SessionName"?ServerPassword=$ServerPassword?ServerAdminPassword=$ServerAdminPassword?Port=$Port?RCONPort=$RCONPort?QueryPort=$QueryPort?RCONEnabled=True?MaxPlayers=$Players$( [ "$BATTLE_EYE" == "1" ] || printf %s ' -NoBattlEye' ) -server $automodvar $extra_args -log & until echo -n ""; rcon -t rcon -a 127.0.0.1:$RCONPort -p $ServerAdminPassword 2>/dev/null; do sleep 5; done
