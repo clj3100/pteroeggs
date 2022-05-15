@@ -10,22 +10,13 @@ QueryPort=$7
 Players=$8
 mods=$9
 extra_args=${10}
+automod=${11}
 
 rmv() {
      echo -e "stopping server"
      rcon -t rcon -a 127.0.0.1:$RCONPort -p $ServerAdminPassword -c saveworld && rcon -a 127.0.0.1:$RCONPort -p $ServerAdminPassword -c DoExit
 }
 trap rmv 15
-
-if [[ $(test -e bin/arkmanager;echo $?) == 1 ]] 
-    then
-        echo "Installing Ark Server Tools"
-        curl -sL https://git.io/arkmanager | bash -s -- --me --perform-user-install --yes-i-really-want-to-perform-a-user-install
-        sed -e 's:arkserverroot="/home/container/ARK":arkserverroot="/home/container":' -i .config/arkmanager/instances/main.cfg
-        sed -e "s/\#ark_GameModIds/ark_GameModIds/" -i .config/arkmanager/instances/main.cfg
-    else
-        echo "Ark Server Tools already installed"
-fi
 
 if [ -z "$mods" ]
     then
@@ -44,8 +35,23 @@ if [[ $(grep -q '^ActiveMods' ShooterGame/Saved/Config/LinuxServer/GameUserSetti
 fi
 fi
 
-sed -e "s/ark_GameModIds.*/ark_GameModIds=\"$mods\"/" -i .config/arkmanager/instances/main.cfg
+if [[ $automod == 1]]
+    then
+        automodvar="-automanagedmods"
+    else
+        if [[ $(test -e bin/arkmanager;echo $?) == 1 ]] 
+            then
+                echo "Installing Ark Server Tools"
+                curl -sL https://git.io/arkmanager | bash -s -- --me --perform-user-install --yes-i-really-want-to-perform-a-user-install
+                sed -e 's:arkserverroot="/home/container/ARK":arkserverroot="/home/container":' -i .config/arkmanager/instances/main.cfg
+                sed -e "s/\#ark_GameModIds/ark_GameModIds/" -i .config/arkmanager/instances/main.cfg
+            else
+                echo "Ark Server Tools already installed"
+        fi
+        sed -e "s/ark_GameModIds.*/ark_GameModIds=\"$mods\"/" -i .config/arkmanager/instances/main.cfg
+        bin/arkmanager installmods
+fi
 
 sed -e "s/^MaxPlayers.*/MaxPlayers=$Players/" -i ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
 
-cd ShooterGame/Binaries/Linux && ./ShooterGameServer $map?listen?SessionName="$SessionName"?ServerPassword=$ServerPassword?ServerAdminPassword=$ServerAdminPassword?Port=$Port?RCONPort=$RCONPort?QueryPort=$QueryPort?RCONEnabled=True?MaxPlayers=$Players$( [ "$BATTLE_EYE" == "1" ] || printf %s ' -NoBattlEye' ) -server $extra_args -log & until echo -n ""; rcon -t rcon -a 127.0.0.1:$RCONPort -p $ServerAdminPassword >/dev/null 2>&1; do sleep 5; done
+cd ShooterGame/Binaries/Linux && ./ShooterGameServer $map?listen?SessionName="$SessionName"?ServerPassword=$ServerPassword?ServerAdminPassword=$ServerAdminPassword?Port=$Port?RCONPort=$RCONPort?QueryPort=$QueryPort?RCONEnabled=True?MaxPlayers=$Players$( [ "$BATTLE_EYE" == "1" ] || printf %s ' -NoBattlEye' ) -server $automodvar $extra_args -log & until echo -n ""; rcon -t rcon -a 127.0.0.1:$RCONPort -p $ServerAdminPassword >/dev/null 2>&1; do sleep 5; done
