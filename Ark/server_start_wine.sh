@@ -36,28 +36,11 @@ if [ -z "$mods" ]
             else
                 sed -e "s/^ActiveMods=.*/ActiveMods=$mods/" -i /home/container/ShooterGame/Saved/Config/WindowsServer/GameUserSettings.ini
         fi
-    
-    # if [[ $automod == 1 ]]
-    # then
-    #     automodvar="-automanagedmods"
-    # else
-    #     if [[ $(test -e /home/container/bin/arkmanager;echo $?) == 1 ]] 
-    #         then
-    #             echo "Installing Ark Server Tools"
-    #             curl -sL https://git.io/arkmanager | bash -s -- --me --perform-user-install --yes-i-really-want-to-perform-a-user-install
-    #             sed -e 's:arkserverroot="/home/container/ARK":arkserverroot="/home/container":' -i /home/container/.config/arkmanager/instances/main.cfg
-    #             sed -e "s/\#ark_GameModIds/ark_GameModIds/" -i /home/container/.config/arkmanager/instances/main.cfg
-    #         else
-    #             echo "Ark Server Tools already installed"
-    #     fi
-    #     sed -e "s/ark_GameModIds.*/ark_GameModIds=\"$mods\"/" -i /home/container/.config/arkmanager/instances/main.cfg
-    #     /home/container/bin/arkmanager installmods
-    # fi
 fi
 
 if [[ $verify == 1 ]]
     then
-        cd /home/container/steamcmd && ./steamcmd.sh +force_install_dir /home/container +login anonymous +app_update 376030 validate +quit
+        cd /home/container/steamcmd && ./steamcmd.sh +force_install_dir /home/container +login anonymous +@sSteamCmdForcePlatformType windows +app_update 376030 validate +quit
 fi
 
 sed -e "s/MaxPlayers.*/MaxPlayers=$Players/" -i /home/container/ShooterGame/Saved/Config/WindowsServer/GameUserSettings.ini
