@@ -30,6 +30,7 @@ variable_replace() {
 
 if [[ `test -e /home/container/Pal/Saved/Config/LinuxServer/PalWorldSettings.ini; echo $?` == 1 ]]
   then
+      mkdir -p /home/container/Pal/Saved/Config/LinuxServer/
       cp /home/container/DefaultPalWorldSettings.ini /home/container/Pal/Saved/Config/LinuxServer/PalWorldSettings.ini
       variable_replace
   else
