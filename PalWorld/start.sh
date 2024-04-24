@@ -37,4 +37,4 @@ if [[ `test -e /home/container/Pal/Saved/Config/LinuxServer/PalWorldSettings.ini
       variable_replace
 fi
 
-cd /home/container/Pal/Binaries/Linux/ && ./PalServer-Linux-Test Pal -useperfthreads -NoAsyncLoadingThread -UseMultithreadForDS -port=$Port -players=$Players -publicip $IP -publicport $Port -servername="$ServerName" EpicApp=PalServer & until echo -n ""; rcon -t rcon -a 127.0.0.1:$RCONPort -p $ServerAdminPassword 2>/dev/null; do sleep 5; done
+cd /home/container/Pal/Binaries/Linux/ && ./PalServer-Linux-Shipping Pal -useperfthreads -NoAsyncLoadingThread -UseMultithreadForDS -port=$Port -players=$Players -publicip $IP -publicport $Port -servername="$ServerName" EpicApp=PalServer & until echo -n ""; rcon -t rcon -a 127.0.0.1:$RCONPort -p $ServerAdminPassword 2>/dev/null; do sleep 5; done
